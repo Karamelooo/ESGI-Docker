@@ -1,0 +1,25 @@
+version: "3.8"
+
+services:
+  composer:
+    build:
+      context: ./composer/
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+
+  symfony:
+    build:
+      context: ./symfony/
+      dockerfile: Dockerfile
+    volumes:
+      - .apps/src:/usr/src/app
+    restart: on-failure
+    env_file:
+      - .env
+    ports:
+      - "1000:1000"
+
+extends:
+  file: ../database/docker-compose.yml
+  service: symfony
