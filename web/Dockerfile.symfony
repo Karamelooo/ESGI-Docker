@@ -1,0 +1,22 @@
+# Utilisez Alpine Linux comme image de base
+FROM alpine:latest
+
+# Répertoire de travail
+WORKDIR /app
+
+RUN apk add --no-cache bash php php-cli php-json php-phar php-openssl php-mbstring php-ctype php-tokenizer php82-xml php-dom php-mysqlnd php-pdo_mysql php-session
+# RUN curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.alpine.sh' | bash
+# RUN apk add symfony-cli
+
+# Installez Symfony avec Composer
+
+
+# Exposez le port 8000 (ou tout autre port que vous utilisez pour Symfony)
+EXPOSE 8000
+
+# Commande par défaut pour exécuter Symfony
+
+# CMD symfony check:requirements
+# CMD symfony new my_project
+# CMD php symfony server:start --no-tls
+CMD php bin/console server:run 0.0.0.0:8000
