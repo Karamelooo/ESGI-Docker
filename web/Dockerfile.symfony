@@ -19,4 +19,5 @@ EXPOSE 8000
 # CMD symfony check:requirements
 # CMD symfony new my_project
 # CMD php symfony server:start --no-tls
-CMD php bin/console server:run 0.0.0.0:8000
+RUN ls
+# CMD php symfony_project/bin/console server:run 0.0.0.0:8000
