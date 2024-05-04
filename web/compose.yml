@@ -1,0 +1,28 @@
+services:
+  composer:
+    build:
+      context: .
+      target: custom_composer
+    restart: on-failure:3
+    command: "echo Composer service is running..."
+
+  symfony:
+    build:
+      context: .
+      target: custom_symfony
+    restart: on-failure:3
+    environment:
+      - APP_ENV=dev
+    env_file:
+      - ../.env
+    ports:
+      - "8000:8000"
+    depends_on:
+      - composer
+      # - postgres
+    command: "echo Symfony service is running..."
+
+  # postgres:
+  #   extends:
+  #     file: ../database/compose.yml
+  #     service: postgres
