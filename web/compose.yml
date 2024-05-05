@@ -4,13 +4,13 @@ services:
       context: .
       target: custom_composer
     restart: on-failure:3
-    command: "echo Composer service is running..."
+    #command: "echo Composer service is running..."
 
   symfony:
     build:
       context: .
       target: custom_symfony
-    restart: on-failure:3
+    #restart: on-failure:3
     environment:
       - APP_ENV=dev
     env_file:
@@ -20,7 +20,7 @@ services:
     depends_on:
       - composer
       # - postgres
-    command: "echo Symfony service is running..."
+   # command: "echo Symfony service is running..."
 
   # postgres:
   #   extends:
