@@ -1,4 +1,16 @@
 {
-    "require": {
-    }
+  "require": {
+    "php-cli": "^8.2.18",
+    "php-json": "^8.2.18",
+    "php-phar": "^8.2.18",
+    "php-openssl": "^8.2.18",
+    "php-curl": "^8.2.18",
+    "php-mbstring": "^8.2.18",
+    "php-ctype": "^8.2.18",
+    "php-iconv": "^8.2.18",
+    "php-xml": "^8.2.18",
+    "php-session": "^8.2.18",
+    "php-dom": "^8.2.18",
+    "php-tokenizer": "^8.2.18"
+  }
 }

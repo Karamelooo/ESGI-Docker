@@ -52,7 +52,7 @@ CMD composer create-project symfony/skeleton my_project \
   && composer require --dev symfony/maker-bundle \
   && composer install \
   && composer update \
-  && symfony server:start
+  && symfony server:start --no-tls
 
 
 # Lancer le serveur web
