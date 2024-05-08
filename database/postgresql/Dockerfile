@@ -1,4 +1,3 @@
-# Utiliser une image Alpine de base
 FROM alpine:latest
 
 # Mise à jour de l'index des paquets
