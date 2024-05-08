@@ -20,10 +20,10 @@ services:
     volumes:
       - pgsqldata:/var/lib/postgresql/data
     ports:
-      - "5432:5432"
+      - "5433:5433"
     restart: on-failure:3
     env_file:
-      - ../.env
+      - .env
 
 volumes:
   pgsqldata:
