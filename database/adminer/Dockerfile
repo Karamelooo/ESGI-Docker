@@ -1,17 +1,18 @@
 FROM alpine:latest
 
-# Installation de PHP et d'Adminer
+# Installation de PHP, Nginx, et curl
 RUN apk --no-cache update \
     && apk --no-cache add curl php php-session php-pdo php-pdo_mysql php-pdo_pgsql nginx \
     && mkdir -p /var/www/html \
     && curl -o /var/www/html/adminer.php https://www.adminer.org/latest.php
 
-# Configuration de Nginx pour servir Adminer
+# Configuration de Nginx pour servir Adminer et les fichiers statiques
 COPY nginx.conf /etc/nginx/nginx.conf
 
-# Commande par défaut pour démarrer Adminer
-# Installation de l'outil de gestion de base de données
-CMD nginx -g "daemon off;" \
-    && php -S localhost:8080 -t /var/www/html \
-    && apk --no-cache add adminer \
-    tail -f /dev/null
+RUN  chmod -R 755 /var/www/html/
+
+# Exposer le port 8080
+EXPOSE 8080
+
+# Commande par défaut pour démarrer Nginx
+CMD nginx -g "daemon off;"
