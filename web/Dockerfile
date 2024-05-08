@@ -31,7 +31,9 @@ CMD composer install \
 
 # Image Symfony
 FROM alpine:latest AS custom_symfony
-
+LABEL image.name="horotopia/custom_symfony" \
+    image.description="Image Symfony Custom" \
+    image.version="latest"
 # Copiez les fichiers de l'image custom_composer
 COPY --from=custom_composer / ./
 WORKDIR /app

@@ -10,7 +10,7 @@ services:
     build:
       context: .
       target: custom_symfony
-    #restart: on-failure:3
+    restart: on-failure:3
     volumes:
       - .:/app
     environment:
