@@ -1,16 +1,30 @@
+# Utiliser une image Alpine de base
 FROM alpine:latest
 
-# Installation de l'outil de gestion de base de données
-RUN apk --no-cache add adminer
+# Mise à jour de l'index des paquets
+RUN apk update && apk upgrade
 
-# Compare this snippet from database/postgresql/Dockerfile:
-# # Installation de PostgreSQL
-# RUN apk --no-cache add postgresql
-# 
-# # Créer un utilisateur et une base de données
-# RUN su - postgres -c "initdb -D /var/lib/postgresql/data"
-# RUN su - postgres -c "pg_ctl -D /var/lib/postgresql/data start"
-# RUN su - postgres -c "createdb my_database"
-#
-# # Lancer le serveur PostgreSQL
-# CMD su - postgres -c "postgres -D /var/lib/postgresql/data"
+# Installer PostgreSQL
+RUN apk update && apk add postgresql postgresql-contrib
+
+# Créer un répertoire pour stocker les données de PostgreSQL
+RUN mkdir /pgdata
+
+# Définir les permissions appropriées sur le répertoire /pgdata
+RUN chown -R postgres:postgres /pgdata
+RUN chmod 700 /pgdata
+
+# Exposer le port par défaut de PostgreSQL
+EXPOSE 5432
+
+# Démarrez PostgreSQL au démarrage du conteneur
+CMD ["postgres", "-D", "/pgdata"]
+
+# Initialiser la base de données PostgreSQL
+RUN su postgres -c "/usr/bin/initdb -D /pgdata"
+
+# Modifier la configuration pour utiliser un répertoire de verrouillage différent
+RUN echo "unix_socket_directories = '/tmp'" >> /pgdata/postgresql.conf
+
+# Démarrer le service PostgreSQL
+RUN su postgres -c "/usr/bin/pg_ctl -D /pgdata -o '-c listen_addresses=' -w start"
