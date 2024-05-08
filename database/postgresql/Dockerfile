@@ -5,7 +5,7 @@ FROM alpine:latest
 RUN apk update && apk upgrade
 
 # Installer PostgreSQL
-RUN apk update && apk add postgresql postgresql-contrib
+RUN apk add postgresql postgresql-contrib
 
 # Créer un répertoire pour stocker les données de PostgreSQL
 RUN mkdir /pgdata
@@ -14,11 +14,8 @@ RUN mkdir /pgdata
 RUN chown -R postgres:postgres /pgdata
 RUN chmod 700 /pgdata
 
-# Exposer le port par défaut de PostgreSQL
-EXPOSE 5432
-
 # Démarrez PostgreSQL au démarrage du conteneur
-CMD ["postgres", "-D", "/pgdata"]
+CMD postgres -D /pgdata
 
 # Initialiser la base de données PostgreSQL
 RUN su postgres -c "/usr/bin/initdb -D /pgdata"
