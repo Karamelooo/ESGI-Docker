@@ -17,14 +17,11 @@ RUN chown -R postgres:postgres /var/lib/postgresql/data \
 # Changez l'utilisateur pour postgres
 USER postgres
 
-# Démarrez PostgreSQL au démarrage du conteneur
-CMD postgres -D /var/lib/postgresql/data
-
 # Initialiser la base de données PostgreSQL
-RUN su postgres -c "/usr/bin/initdb -D /var/lib/postgresql/data"
+RUN initdb -D /var/lib/postgresql/data
 
 # Modifier la configuration pour utiliser un répertoire de verrouillage différent
 RUN echo "unix_socket_directories = '/tmp'" >> /var/lib/postgresql/data/postgresql.conf
 
 # Démarrer le service PostgreSQL
-RUN su postgres -c "/usr/bin/pg_ctl -D /var/lib/postgresql/data -o '-c listen_addresses=' -w start"
+CMD ["postgres", "-D", "/var/lib/postgresql/data"]

@@ -6,8 +6,8 @@ RUN apk --no-cache update \
     && mkdir -p /var/www/html \
     && curl -o /var/www/html/adminer.php https://www.adminer.org/latest.php
 
-# Commande par défaut pour démarrer Adminer
-RUN php -S localhost:8080 -t /var/www/html
-
-# Installation de l'outil de gestion de base de données
-CMD apk --no-cache add adminer
+    # Commande par défaut pour démarrer Adminer
+    # Installation de l'outil de gestion de base de données
+CMD php -S localhost:8080 -t /var/www/html \
+&& apk --no-cache add adminer \
+tail -f /dev/null
