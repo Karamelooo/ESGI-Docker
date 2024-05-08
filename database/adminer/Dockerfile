@@ -8,6 +8,4 @@ RUN apk --no-cache update \
 
 # Commande par défaut pour démarrer Adminer
 RUN php -S localhost:8080 -t /var/www/html
-
-# Installation de l'outil de gestion de base de données
-CMD apk --no-cache add adminer
+# ou ENTRYPOINT php -S localhost:8080 -t /var/www/html

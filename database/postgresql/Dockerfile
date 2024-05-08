@@ -1,4 +1,3 @@
-# Utiliser une image Alpine de base
 FROM alpine:latest
 
 # Mise à jour de l'index des paquets
@@ -13,9 +12,6 @@ RUN mkdir /var/lib/postgresql/data
 # Définir les permissions appropriées sur le répertoire /pgdata en utilisant le .env file pour les variables d'environnement
 RUN chown -R postgres:postgres /var/lib/postgresql/data \
   && chmod 700 /var/lib/postgresql/data
-
-# Changez l'utilisateur pour postgres
-USER postgres
 
 # Démarrez PostgreSQL au démarrage du conteneur
 CMD postgres -D /var/lib/postgresql/data
