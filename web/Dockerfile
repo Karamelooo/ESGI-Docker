@@ -39,7 +39,7 @@ COPY --from=custom_composer / ./
 WORKDIR /app
 
 # Installation des dépendances
-RUN apk --no-cache add curl bash
+RUN apk --no-cache add curl bash busybox-extras
 
 # Télécharger et exécuter l'installateur Symfony
 RUN curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.alpine.sh' | bash

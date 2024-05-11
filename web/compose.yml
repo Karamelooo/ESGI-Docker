@@ -23,8 +23,12 @@ services:
       - composer
       # - postgres
     # command: "echo Symfony service is running..."
-
+    networks:
+      - my-network
   # postgres:
   #   extends:
   #     file: ../database/compose.yml
   #     service: postgres
+networks:
+  my-network:
+    external: true
