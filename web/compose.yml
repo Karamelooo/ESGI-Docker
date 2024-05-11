@@ -1,11 +1,4 @@
 services:
-  composer:
-    build:
-      context: .
-      target: custom_composer
-    restart: on-failure:3
-    #command: "echo Composer service is running..."
-
   symfony:
     build:
       context: .
@@ -19,8 +12,6 @@ services:
       - ../.env
     ports:
       - "8000:8000"
-    depends_on:
-      - composer
       # - postgres
     # command: "echo Symfony service is running..."
     networks:
