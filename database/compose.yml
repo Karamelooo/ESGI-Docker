@@ -3,8 +3,10 @@ services:
     build:
       context: ./adminer
       dockerfile: Dockerfile
+    volumes:
+      - socket:/run/postgresql
     ports:
-      - "80:80"
+      - "8080:80"
     # restart: on-failure:3
     depends_on:
       - postgres
@@ -18,7 +20,10 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
     volumes:
+      - ./postgresql/postgresql.conf:/var/lib/postgresql/data/postgresql.conf
+      - ./postgresql/pg_hba.conf:/var/lib/postgresql/data/pg_hba.conf
       - pgsqldata:/var/lib/postgresql/data
+      - socket:/tmp
     ports:
       - "5432:5432"
     # restart: on-failure:3
@@ -27,3 +32,4 @@ services:
 
 volumes:
   pgsqldata:
+  socket:

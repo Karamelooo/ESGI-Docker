@@ -1,3 +1,4 @@
 .env
 /web/vendor
 /web/composer.lock
+.DS_Store
