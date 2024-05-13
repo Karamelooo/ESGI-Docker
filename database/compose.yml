@@ -7,9 +7,11 @@ services:
       - socket:/run/postgresql
     ports:
       - "8080:80"
-    # restart: on-failure:3
+    restart: on-failure:3
     depends_on:
       - postgres
+    networks:
+      - my-network
 
   postgres:
     build:
@@ -26,15 +28,16 @@ services:
       - socket:/tmp
     ports:
       - "5432:5432"
-    # restart: on-failure:3
-    networks:
-      - my-network
+    restart: on-failure:3
     env_file:
       - .env
+    networks:
+      - my-network
+
+networks:
+  my-network:
+    name: postgres_network
 
 volumes:
   pgsqldata:
   socket:
-networks:
-  my-network:
-    external: true

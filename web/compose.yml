@@ -4,14 +4,18 @@ services:
       context: .
       target: custom_composer
     restart: on-failure:3
+    tty: true
     volumes:
       - .:/app
+    networks:
+      - my-network
 
   symfony:
     build:
       context: .
       target: custom_symfony
     restart: on-failure:3
+    tty: true
     volumes:
       - .:/app
     environment:
@@ -20,13 +24,12 @@ services:
       - .env
     ports:
       - "8000:8000"
-      # - postgres
+    depends_on:
+      - composer
     networks:
       - my-network
-  # postgres:
-  #   extends:
-  #     file: ../database/compose.yml
-  #     service: postgres
+
 networks:
   my-network:
+    name: postgres_network
     external: true

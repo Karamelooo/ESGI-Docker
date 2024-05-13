@@ -7,6 +7,7 @@ RUN apk update && apk upgrade
 # Installation du dernier PHP et de ses extensions
 RUN apk --no-cache add php \
     php-cli \
+    php-fpm \
     php-json \
     php-phar \
     php-openssl \
@@ -24,11 +25,12 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
     && php composer-setup.php --install-dir=/usr/local/bin --filename=composer \
     && php -r "unlink('composer-setup.php');"
 
+# Copier le fichier composer.json
 COPY composer.json /app/composer.json
 
-CMD composer install \
+# Installer les dépendances
+RUN composer install --no-dev --optimize-autoloader \
     && composer update
-
 
 # Image Symfony
 FROM alpine:latest AS custom_symfony
@@ -52,13 +54,16 @@ RUN chmod +x bin/console; sync;
 # créer un nouveau projet Symfony
 RUN composer create-project symfony/skeleton my_project \
   && cd my_project \
-  && composer require symfony/console symfony/orm-pack  \
+  && composer require webapp symfony/console \ 
+  # symfony/orm-pack  \
+  && echo "symfony/console symfony/orm-pack" \
   && composer require --dev symfony/maker-bundle fzaninotto/faker doctrine/doctrine-fixtures-bundle \
+  && echo "symfony/maker-bundle fzaninotto/faker doctrine/doctrine-fixtures-bundle" \
   && composer install \
   && composer update
 
 # Créer la base de données
-RUN symfony console doctrine:database:create
+RUN symfony console doctrine:database:createcd
 
 # Copier les fichiers de todo liste
 COPY ./config_todo/ /app/config_todo/
