@@ -1,4 +1,12 @@
 services:
+  composer:
+    build:
+      context: .
+      target: custom_composer
+    restart: on-failure:3
+    volumes:
+      - .:/app
+
   symfony:
     build:
       context: .
@@ -9,11 +17,10 @@ services:
     environment:
       - APP_ENV=dev
     env_file:
-      - ../.env
+      - .env
     ports:
       - "8000:8000"
       # - postgres
-    # command: "echo Symfony service is running..."
     networks:
       - my-network
   # postgres:

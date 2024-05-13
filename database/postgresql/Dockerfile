@@ -13,11 +13,11 @@ RUN apk add --no-cache ncurses libedit db cyrus-sasl openldap postgresql-libs po
 RUN mkdir /run/postgresql \
   && chown postgres:postgres /run/postgresql
 
-# Change to postgres user, and navigate to its home directory
+# Changer d'utilisateur postgres et assigner un répertoire de travail
 USER postgres
 WORKDIR /var/lib/postgresql
 
-  # Créer un répertoire pour stocker les données de PostgreSQL
+# Créer un répertoire pour stocker les données de PostgreSQL
 RUN mkdir /var/lib/postgresql/data \
   && chmod 700 /var/lib/postgresql/data
 
