@@ -15,8 +15,8 @@ RUN mkdir /run/postgresql \
 
 # Changer d'utilisateur postgres et assigner un répertoire de travail
 USER postgres
-ENV POSTGRES_PASSWORD postgres
-ENV POSTGRES_DB postgres
+ENV POSTGRES_PASSWORD ${POSTGRES_PASSWORD}
+ENV POSTGRES_DB ${POSTGRES_DB}
 WORKDIR /var/lib/postgresql
 
 # Créer un répertoire pour stocker les données de PostgreSQL
