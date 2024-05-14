@@ -19,8 +19,10 @@ RUN apk --no-cache add php \
     php-xml \
     php-session \
     php-dom \
-    php-tokenizer
-
+    php-tokenizer \
+    php-pdo \
+    php-pgsql \
+    php-pdo_pgsql
 # Installation de Composer
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
     && php composer-setup.php --install-dir=/usr/local/bin --filename=composer \
@@ -48,7 +50,7 @@ RUN apk --no-cache add curl bash busybox-extras
 
 # Télécharger et exécuter l'installateur Symfony
 RUN curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.alpine.sh' | bash
-RUN apk add symfony-cli bin/console
+RUN apk add symfony-cli
 
 # Permettre à l'utilisateur de lancer des commandes Symfony
 RUN chmod +x bin/console; sync;
@@ -64,6 +66,8 @@ RUN composer create-project symfony/skeleton my_project \
 #   && echo "symfony/maker-bundle fzaninotto/faker doctrine/doctrine-fixtures-bundle" \
   && composer install \
   && composer update
+
+WORKDIR /app/my_project
 
 # Créer la base de données
 
