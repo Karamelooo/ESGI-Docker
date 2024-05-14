@@ -5,6 +5,9 @@
 # Lancer Postgres
 
 Dans le répertoire database
+
+Créer un fichier .env
+
 `docker compose up --build`
 
 # Modifier le mot de passe
@@ -16,6 +19,9 @@ Dans le répertoire database
 # Lancer Symfony
 
 Dans le répertoire web
+
+Créer un fichier .env
+
 `docker compose up --build`
 
 # Interface Adminer
@@ -33,3 +39,6 @@ http://localhost:8000/
 # Accéder à la todo list
 
 http://localhost:8000/article
+
+<img width="203" alt="image" src="https://github.com/Karamelooo/ESGI-Docker/assets/42684851/ee75df7f-9495-4b40-8193-feb97e2123ea">
+
