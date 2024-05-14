@@ -43,7 +43,7 @@ CMD php -S
 FROM alpine:latest AS custom_symfony
 
 # Variables d'environnement
-ENV DATABASE_URL "postgresql://app:!ChangeMe!@127.0.0.1:5432/app?serverVersion=16&charset=utf8"
+ENV DATABASE_URL "postgresql://postgres@postgres:5432/app?serverVersion=16&charset=utf8"
 
 # Copiez les fichiers de l'image custom_composer
 COPY --from=custom_composer / ./
@@ -60,18 +60,14 @@ RUN apk add symfony-cli
 RUN chmod +x bin/console; sync;
 
 # créer un nouveau projet Symfony
-RUN composer create-project symfony/skeleton my_project \
+ENTRYPOINT composer create-project symfony/skeleton my_project \
   && cd my_project \
   && composer require symfony/console \
   && composer require -W --quiet webapp \
   && composer install \
-  && composer update
-
-WORKDIR /app/my_project
-
-# Créer la base de données
-WORKDIR /app/my_project
-RUN symfony console doctrine:database:create
+  && composer update \
+  && symfony console doctrine:database:create \
+  && symfony console make:migration && symfony console doctrine:migrations:migrate
 
 # Copier les fichiers de todo liste
 COPY ./config_todo/ /app/config_todo/
@@ -79,7 +75,6 @@ COPY ./config_todo/src /app/my_project/src
 COPY ./config_todo/templates/ /app/my_project/templates
 COPY ./config_todo/ServiceEntityRepository.php /app/my_project/vendor/doctrine/doctrine-bundle/src/Repository/ServiceEntityRepository.php
 
-RUN symfony console make:migration && symfony console doctrine:migrations:migrate
 
 # Lancer le serveur web
 CMD symfony server:start --no-tls
