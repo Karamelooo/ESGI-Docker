@@ -64,6 +64,7 @@ ENTRYPOINT composer create-project symfony/skeleton my_project \
   && cd my_project \
   && composer require symfony/console \
   && composer require -W --quiet webapp \
+  && composer require doctrine/doctrine-fixtures-bundle --dev \
   && composer install \
   && composer update \
   && cp -r ../config_todo/src . \
@@ -72,6 +73,7 @@ ENTRYPOINT composer create-project symfony/skeleton my_project \
   && php bin/console doctrine:database:create \
   && php bin/console make:migration \
   && php bin/console doctrine:migrations:migrate -n \
+  && php bin/console doctrine:fixtures:load -n \
   && symfony server:start --no-tls
 
 
