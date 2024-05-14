@@ -17,3 +17,19 @@ Dans le répertoire database
 
 Dans le répertoire web
 `docker compose up --build`
+
+# Interface Adminer
+
+http://localhost:8080/
+
+<img width="666" alt="image" src="https://github.com/Karamelooo/ESGI-Docker/assets/42684851/846bed7e-3d1a-4cf5-a377-196cac420274">
+
+# Interface Symfony
+
+http://localhost:8000/
+
+<img width="1084" alt="image" src="https://github.com/Karamelooo/ESGI-Docker/assets/42684851/6e2bf22b-33f8-4ce9-abaa-7617f0204f69">
+
+# Accéder à la todo list
+
+http://localhost:8000/article
