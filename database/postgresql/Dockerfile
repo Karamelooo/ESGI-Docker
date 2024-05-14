@@ -13,10 +13,11 @@ RUN apk add --no-cache ncurses libedit db cyrus-sasl openldap postgresql-libs po
 RUN mkdir /run/postgresql \
   && chown postgres:postgres /run/postgresql
 
+# Copier le script SQL dans le conteneur
+COPY init.sql /docker-entrypoint-initdb.d/
+
 # Changer d'utilisateur postgres et assigner un répertoire de travail
 USER postgres
-ENV POSTGRES_PASSWORD ${POSTGRES_PASSWORD}
-ENV POSTGRES_DB ${POSTGRES_DB}
 WORKDIR /var/lib/postgresql
 
 # Créer un répertoire pour stocker les données de PostgreSQL
