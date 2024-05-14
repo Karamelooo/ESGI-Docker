@@ -16,6 +16,10 @@ Créer un fichier .env
 
 `ALTER USER postgres WITH PASSWORD 'postgres';`
 
+`psql -h /tmp` pour lancer psql depuis ailleurs que /run/postgresql/
+`\l` pour voir les databases et leur owner
+`DROP database app;` pour supprimer la database app
+
 # Lancer Symfony
 
 Dans le répertoire web
@@ -41,4 +45,3 @@ http://localhost:8000/
 http://localhost:8000/article
 
 <img width="203" alt="image" src="https://github.com/Karamelooo/ESGI-Docker/assets/42684851/ee75df7f-9495-4b40-8193-feb97e2123ea">
-

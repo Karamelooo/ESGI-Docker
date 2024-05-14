@@ -42,9 +42,6 @@ CMD php -S
 # Image Symfony
 FROM alpine:latest AS custom_symfony
 
-# Variables d'environnement
-ENV DATABASE_URL "postgresql://postgres:postgres@postgres:5432/app?serverVersion=16&charset=utf8"
-
 # Copiez les fichiers de l'image custom_composer
 COPY --from=custom_composer / ./
 WORKDIR /app
