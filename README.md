@@ -8,6 +8,13 @@ Dans le répertoire database
 
 Créer un fichier .env
 
+```
+POSTGRES_USER=<utilisateur>
+POSTGRES_PASSWORD=<mot de passe>
+POSTGRES_DB=<nom de la base>
+POSTGRES_HOST=<nom de l'hôte>
+```
+
 `docker compose up --build`
 
 # Modifier le mot de passe
@@ -25,6 +32,13 @@ Créer un fichier .env
 Dans le répertoire web
 
 Créer un fichier .env
+
+```
+POSTGRES_USER=<utilisateur>
+POSTGRES_PASSWORD=<mot de passe>
+POSTGRES_DB=<nom de la base>
+POSTGRES_HOST=<nom de l'hôte>
+```
 
 `docker compose up --build`
 
