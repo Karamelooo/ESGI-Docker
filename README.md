@@ -39,3 +39,6 @@ http://localhost:8000/
 # Accéder à la todo list
 
 http://localhost:8000/article
+
+<img width="203" alt="image" src="https://github.com/Karamelooo/ESGI-Docker/assets/42684851/ee75df7f-9495-4b40-8193-feb97e2123ea">
+
