@@ -43,7 +43,7 @@ CMD php -S
 FROM alpine:latest AS custom_symfony
 
 # Variables d'environnement
-ENV DATABASE_URL "postgresql://postgres@postgres:5432/app?serverVersion=16&charset=utf8"
+ENV DATABASE_URL "postgresql://postgres:postgres@postgres:5432/app?serverVersion=16&charset=utf8"
 
 # Copiez les fichiers de l'image custom_composer
 COPY --from=custom_composer / ./
@@ -69,9 +69,14 @@ ENTRYPOINT composer create-project symfony/skeleton my_project \
   && cp -r ../config_todo/src . \
   && cp -r ../config_todo/templates/ . \
   && cp ../config_todo/ServiceEntityRepository.php vendor/doctrine/doctrine-bundle/src/Repository/ \
+  && php bin/console doctrine:database:create \
+  && php bin/console make:migration \
+  && php bin/console doctrine:migrations:migrate \
+  && symfony command --yes \
+  && php bin/console doctrine:fixtures:load \
+  && symfony command --yes \
   && symfony server:start --no-tls
 
-# Copier les fichiers de todo liste \
 
 # Exemple de commandes supplémentaires pour configurer Symfony
 # RUN php bin/console cache:clear --no-debug --no-warmup
