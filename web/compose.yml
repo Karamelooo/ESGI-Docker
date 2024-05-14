@@ -3,7 +3,6 @@ services:
     build:
       context: .
       target: custom_composer
-    restart: on-failure:3
     tty: true
     volumes:
       - .:/app
@@ -14,7 +13,6 @@ services:
     build:
       context: .
       target: custom_symfony
-    restart: on-failure:3
     tty: true
     volumes:
       - .:/app

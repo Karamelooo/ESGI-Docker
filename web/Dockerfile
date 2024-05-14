@@ -66,18 +66,12 @@ ENTRYPOINT composer create-project symfony/skeleton my_project \
   && composer require -W --quiet webapp \
   && composer install \
   && composer update \
-  && symfony console doctrine:database:create \
-  && symfony console make:migration && symfony console doctrine:migrations:migrate
+  && cp -r ../config_todo/src . \
+  && cp -r ../config_todo/templates/ . \
+  && cp ../config_todo/ServiceEntityRepository.php vendor/doctrine/doctrine-bundle/src/Repository/ \
+  && symfony server:start --no-tls
 
-# Copier les fichiers de todo liste
-COPY ./config_todo/ /app/config_todo/
-COPY ./config_todo/src /app/my_project/src
-COPY ./config_todo/templates/ /app/my_project/templates
-COPY ./config_todo/ServiceEntityRepository.php /app/my_project/vendor/doctrine/doctrine-bundle/src/Repository/ServiceEntityRepository.php
-
-
-# Lancer le serveur web
-CMD symfony server:start --no-tls
+# Copier les fichiers de todo liste \
 
 # Exemple de commandes supplémentaires pour configurer Symfony
 # RUN php bin/console cache:clear --no-debug --no-warmup
