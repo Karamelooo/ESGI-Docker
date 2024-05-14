@@ -71,10 +71,7 @@ ENTRYPOINT composer create-project symfony/skeleton my_project \
   && cp ../config_todo/ServiceEntityRepository.php vendor/doctrine/doctrine-bundle/src/Repository/ \
   && php bin/console doctrine:database:create \
   && php bin/console make:migration \
-  && php bin/console doctrine:migrations:migrate \
-  && symfony command --yes \
-  && php bin/console doctrine:fixtures:load \
-  && symfony command --yes \
+  && php bin/console doctrine:migrations:migrate -n \
   && symfony server:start --no-tls
 
 
