@@ -5,6 +5,7 @@
 # Lancer Postgres
 
 Dans le répertoire database
+Créer un fichier .env
 `docker compose up --build`
 
 # Modifier le mot de passe
@@ -16,6 +17,7 @@ Dans le répertoire database
 # Lancer Symfony
 
 Dans le répertoire web
+Créer un fichier .env
 `docker compose up --build`
 
 # Interface Adminer
