@@ -23,6 +23,7 @@ RUN apk --no-cache add php \
     php-pdo \
     php-pgsql \
     php-pdo_pgsql
+
 # Installation de Composer
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
     && php composer-setup.php --install-dir=/usr/local/bin --filename=composer \
@@ -40,6 +41,9 @@ CMD php -S
 
 # Image Symfony
 FROM alpine:latest AS custom_symfony
+
+# Variables d'environnement
+ENV DATABASE_URL "postgresql://app:!ChangeMe!@127.0.0.1:5432/app?serverVersion=16&charset=utf8"
 
 # Copiez les fichiers de l'image custom_composer
 COPY --from=custom_composer / ./
@@ -60,17 +64,13 @@ RUN composer create-project symfony/skeleton my_project \
   && cd my_project \
   && composer require symfony/console \
   && composer require -W --quiet webapp \
-  # symfony/orm-pack  \
-#   && echo "symfony/console symfony/orm-pack" \
-#   && composer require --dev symfony/maker-bundle fzaninotto/faker doctrine/doctrine-fixtures-bundle \
-#   && echo "symfony/maker-bundle fzaninotto/faker doctrine/doctrine-fixtures-bundle" \
   && composer install \
   && composer update
 
 WORKDIR /app/my_project
 
 # Créer la base de données
-
+WORKDIR /app/my_project
 RUN symfony console doctrine:database:create
 
 # Copier les fichiers de todo liste
