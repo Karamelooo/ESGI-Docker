@@ -2,8 +2,6 @@
 
 `docker network create my-network`
 
-`docker compose -f database/compose.yml -f web/compose.yml up`
-
 # Lancer Postgres
 
 Dans le répertoire database
@@ -14,3 +12,8 @@ Dans le répertoire database
 `docker exec database-postgres-1 psql -h /tmp`
 
 `ALTER USER postgres WITH PASSWORD 'postgres';`
+
+# Lancer Symfony
+
+Dans le répertoire web
+`docker compose up --build`
