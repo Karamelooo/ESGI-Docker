@@ -1,6 +1,6 @@
 services:
   symfony:
-    image: custom_symfony:latest
+    image: custom_symfony2:latest
     restart: on-failure:3
     volumes:
       - ../:/app

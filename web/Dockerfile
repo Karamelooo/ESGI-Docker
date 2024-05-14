@@ -15,6 +15,7 @@ RUN apk --no-cache add php \
     php-mbstring \
     php-ctype \
     php-iconv \
+    php-simplexml \
     php-xml \
     php-session \
     php-dom \
@@ -32,11 +33,12 @@ COPY composer.json /app/composer.json
 RUN composer install --no-dev --optimize-autoloader \
     && composer update
 
+# Lancer le serveur web
+CMD php -S
+
 # Image Symfony
 FROM alpine:latest AS custom_symfony
-LABEL image.name="horotopia/custom_symfony" \
-    image.description="Image Symfony Custom" \
-    image.version="latest"
+
 # Copiez les fichiers de l'image custom_composer
 COPY --from=custom_composer / ./
 WORKDIR /app
@@ -46,7 +48,7 @@ RUN apk --no-cache add curl bash busybox-extras
 
 # Télécharger et exécuter l'installateur Symfony
 RUN curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.alpine.sh' | bash
-RUN apk add symfony-cli
+RUN apk add symfony-cli bin/console
 
 # Permettre à l'utilisateur de lancer des commandes Symfony
 RUN chmod +x bin/console; sync;
@@ -54,28 +56,26 @@ RUN chmod +x bin/console; sync;
 # créer un nouveau projet Symfony
 RUN composer create-project symfony/skeleton my_project \
   && cd my_project \
-  && composer require webapp symfony/console \ 
+  && composer require symfony/console \
+  && composer require -W --quiet webapp \
   # symfony/orm-pack  \
-  && echo "symfony/console symfony/orm-pack" \
-  && composer require --dev symfony/maker-bundle fzaninotto/faker doctrine/doctrine-fixtures-bundle \
-  && echo "symfony/maker-bundle fzaninotto/faker doctrine/doctrine-fixtures-bundle" \
+#   && echo "symfony/console symfony/orm-pack" \
+#   && composer require --dev symfony/maker-bundle fzaninotto/faker doctrine/doctrine-fixtures-bundle \
+#   && echo "symfony/maker-bundle fzaninotto/faker doctrine/doctrine-fixtures-bundle" \
   && composer install \
   && composer update
 
 # Créer la base de données
-RUN symfony console doctrine:database:createcd
+
+RUN symfony console doctrine:database:create
 
 # Copier les fichiers de todo liste
 COPY ./config_todo/ /app/config_todo/
+COPY ./config_todo/src /app/my_project/src
+COPY ./config_todo/templates/ /app/my_project/templates
+COPY ./config_todo/ServiceEntityRepository.php /app/my_project/vendor/doctrine/doctrine-bundle/src/Repository/ServiceEntityRepository.php
 
-# bouger les fichiers de todo liste
-RUN mv /app/config_todo/Controller/ArticleController.php /app/my_project/src/Controller/ArticleController.php \
-    && mv /app/config_todo/Entity/Article.php /app/my_project/src/Entity/Article.php \
-    && mv /app/config_todo/Repository/ArticleRepository.php /app/my_project/src/Repository/ArticleRepository.php \
-    && mv /app/config_todo/DataFixtures/AppFixtures.php /app/my_project/src/DataFixtures/AppFixtures.php \
-    && mv /app/config_todo/Form/ArticleType.php /app/my_project/src/Form/ArticleType.php \
-    && mv /app/config_todo/Twig/article /app/my_project/templates/Twig/article \
-    && symfony console make:migration && symfony console doctrine:migrations:migrate
+RUN symfony console make:migration && symfony console doctrine:migrations:migrate
 
 # Lancer le serveur web
 CMD symfony server:start --no-tls
