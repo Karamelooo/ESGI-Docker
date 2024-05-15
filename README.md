@@ -23,8 +23,12 @@ POSTGRES_HOST=<nom de l'hôte>
 
 `ALTER USER postgres WITH PASSWORD 'postgres';`
 
+# Commandes utiles
+
 `psql -h /tmp` pour lancer psql depuis ailleurs que /run/postgresql/
+
 `\l` pour voir les databases et leur owner
+
 `DROP database app;` pour supprimer la database app
 
 # Lancer Symfony
