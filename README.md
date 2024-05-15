@@ -19,7 +19,7 @@ POSTGRES_HOST=<nom de l'hôte>
 
 # Modifier le mot de passe
 
-`docker exec database-postgres-1 psql -h /tmp`
+`docker exec -it database-postgres-1 psql -h /tmp`
 
 `ALTER USER postgres WITH PASSWORD 'postgres';`
 
